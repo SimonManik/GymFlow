@@ -1,0 +1,27 @@
+﻿@model GymFlow.Models.Member
+
+<h1>Přidat nového klienta</h1>
+
+<form method="post" asp-action="Create">
+    <div style="margin-bottom: 10px;">
+        <label>Jméno:</label><br />
+        <input asp-for="FirstName" />
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label>Příjmení:</label><br />
+        <input asp-for="LastName" />
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label>E-mail:</label><br />
+        <input asp-for="Email" />
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label>Platnost do:</label><br />
+        <input type="date" asp-for="MembershipExpiry" />
+    </div>
+
+    <button type="submit" style="margin-top: 10px;">Uložit klienta</button>
+</form>
