@@ -16,7 +16,7 @@
     <tbody>
         @foreach (var member in Model)
         {
-            <tr>
+            <tr class="@(member.MembershipExpiry < DateTime.Now ? "text-danger" : "")">
                 <td>@member.FirstName</td>
                 <td>@member.LastName</td>
                 <td>@member.Email</td>
