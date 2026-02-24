@@ -24,9 +24,15 @@ namespace GymFlow.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] //data processing method
         public IActionResult Create(GymFlow.Models.Member member)
         {
+            if (!ModelState.IsValid) //Checking whether the form data matches the rules in the model
+                                     //If not, return the user back for correction
+            {
+                return View(member);
+
+            }
             _context.Members.Add(member);
 
             _context.SaveChanges();
@@ -37,6 +43,7 @@ namespace GymFlow.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
+
             var member = _context.Members.Find(id);
 
             if (member != null)
@@ -50,7 +57,10 @@ namespace GymFlow.Controllers
 
         public IActionResult Edit(int id)
         {
+         
+
             var member = _context.Members.Find(id);
+
 
             if (member == null)
             {
@@ -62,7 +72,15 @@ namespace GymFlow.Controllers
 
         [HttpPost]
         public IActionResult Edit(int id, GymFlow.Models.Member member)
-        {
+        { //Accepts modified data and writes changes to the database
+
+            if (!ModelState.IsValid) 
+            {
+
+                return View(member);
+
+            }
+
             if (id != member.Id)
             {
                 return NotFound();
