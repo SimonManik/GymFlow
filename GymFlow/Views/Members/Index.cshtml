@@ -1,43 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
-}
+﻿@model IEnumerable<GymFlow.Models.Member>
 
-<div class="text-center mb-5 mt-4">
-    <h1 class="display-4">💪 Welcome to GymFlow</h1>
-    <p class="lead">Overview of your gym members and their status.</p>
-</div>
+<h1>Seznam členů fitka</h1>
+<a asp-action="Create" style="display:inline-block; margin-bottom: 15px;">➕ Přidat klienta</a>
 
-<div class="row text-center">
-    <div class="col-md-4 mb-4">
-        <div class="card text-white bg-primary shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">👥 Total Members</h5>
-                <h2 class="display-3 mt-3 fw-bold">@ViewBag.TotalMembers</h2>
-            </div>
-        </div>
-    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Jméno</th>
+            <th>Příjmení</th>
+            <th>E-mail</th>
+            <th>Platnost do</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+  <tbody>
+    @foreach (var member in Model)
+    {
+        <tr class="@(member.MembershipExpiry < DateTime.Now ? "text-danger" : "")">
+            <td>@member.FirstName</td>
+            <td>@member.LastName</td>
+            <td>@member.Email</td>
+            <td>@member.MembershipExpiry.ToShortDateString()</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@member.Id" style="margin-right: 15px; text-decoration: none;">✏️ Upravit</a>
 
-    <div class="col-md-4 mb-4">
-        <div class="card text-white bg-success shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">✅ Active Members</h5>
-                <h2 class="display-3 mt-3 fw-bold">@ViewBag.ActiveMembers</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4 mb-4">
-        <div class="card text-white bg-danger shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">❌ Expired Memberships</h5>
-                <h2 class="display-3 mt-3 fw-bold">@ViewBag.ExpiredMembers</h2>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="text-center mt-4">
-    <a asp-controller="Members" asp-action="Index" class="btn btn-outline-dark btn-lg shadow-sm">
-        📋 Go to Members Management
-    </a>
-</div>
+                <form method="post" asp-action="Delete" asp-route-id="@member.Id" style="display:inline;">
+                    <button type="submit" style="color: red; border: none; background: none; cursor: pointer;">
+                        ❌ Smazat
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</tbody>
+</table>
