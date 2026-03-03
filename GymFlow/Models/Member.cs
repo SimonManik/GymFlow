@@ -20,6 +20,7 @@ namespace GymFlow.Models
         [Required]
         public DateTime MembershipExpiry { get; set; }
 
+        public List<WorkoutPlan> WorkoutPlans { get; set; } = new();
 
     }
 }

@@ -10,5 +10,8 @@ namespace GymFlow.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Member> Members { get; set; }
+
+        public DbSet<WorkoutPlan> WorkoutPlans { get; set; }
+        public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
     }
 }

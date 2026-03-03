@@ -1,0 +1,37 @@
+﻿@model IEnumerable<GymFlow.Models.WorkoutPlan>
+
+@{
+    ViewData["Title"] = "Tréninkové plány";
+}
+
+<h1>Plány pro: @ViewBag.MemberName</h1>
+
+<p>
+    <a asp-action="Create" asp-route-memberId="@ViewBag.MemberId" class="btn btn-primary">➕ Nový plán</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Název</th>
+            <th>Popis</th>
+            <th>Vytvořeno</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.CreatedAt.ToShortDateString()</td>
+                <td>
+                    <a class="btn btn-info btn-sm">👁️ Detail cviků</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Members" asp-a<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">👁️ Detail cviků</a>ction="Index">Zpět na seznam klientů</a>
