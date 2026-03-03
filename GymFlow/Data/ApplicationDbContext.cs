@@ -1,17 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore; 
 using GymFlow.Models;
 
 namespace GymFlow.Data
 {
-    public class ApplicationDbContext:DbContext
+    // TADY SE MĚNÍ DbContext na IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options) {}
-
-
-        public DbSet<Member> Members {  get; set; }
-
-
-
+        public DbSet<Member> Members { get; set; }
     }
 }
