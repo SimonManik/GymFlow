@@ -21,8 +21,29 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// admin
+using (var scope = app.Services.CreateScope())
+{
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+if (!await roleManager.RoleExistsAsync("Admin"))
+{
+await roleManager.CreateAsync(new IdentityRole("Admin"));
+}
+
+var user = await userManager.FindByEmailAsync("manik.simon@seznam.cz"); 
+if (user != null && !await userManager.IsInRoleAsync(user, "Admin"))
+{
+await userManager.AddToRoleAsync(user, "Admin");
+}
+}
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
+
+    // Configure the HTTP request pipeline
+    if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();

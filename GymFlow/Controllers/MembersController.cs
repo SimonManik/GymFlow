@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using GymFlow.Data;
+﻿using GymFlow.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 namespace GymFlow.Controllers
 {
-    public class MembersController:Controller
+    [Authorize(Roles = "Admin")] // only for admins
+    public class MembersController : Controller
     {
+    
         private readonly ApplicationDbContext _context;
 
         public MembersController(ApplicationDbContext context) {
