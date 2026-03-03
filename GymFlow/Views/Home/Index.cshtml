@@ -1,43 +1,38 @@
 ﻿@{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Domovská stránka";
 }
 
-<div class="text-center">
-    <h1 class="display-4">💪 Vítej v GymFlow</h1>
-    <p>Tvoje ultimátní aplikace pro tvorbu cvičebních plánů a správu tréninků.</p>
-</div>
+<div class="container py-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="display-3 fw-bold mb-3">🏋️‍♂️ GymFlow</h1>
+            <p class="lead text-muted mb-4">Ultimátní nástroj pro tvorbu cvičebních plánů, sledování progresu a správu tréninků.</p>
 
-<div class="row text-center">
-    <div class="col-md-4 mb-4">
-        <div class="card text-white bg-primary shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">👥 Total Members</h5>
-                <h2 class="display-3 mt-3 fw-bold">@ViewBag.TotalMembers</h2>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a class="btn btn-primary btn-lg px-4 me-md-2" asp-area="Identity" asp-page="/Account/Register">🚀 Začít cvičit</a>
+                <a class="btn btn-outline-secondary btn-lg px-4" asp-area="Identity" asp-page="/Account/Login">🔑 Přihlásit se</a>
             </div>
+        </div>
+        <div class="col-lg-6 mt-4 mt-lg-0 text-center">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" class="img-fluid rounded-3 shadow-lg" alt="Cvičení ve fitku" />
         </div>
     </div>
 
-    <div class="col-md-4 mb-4">
-        <div class="card text-white bg-success shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">✅ Active Members</h5>
-                <h2 class="display-3 mt-3 fw-bold">@ViewBag.ActiveMembers</h2>
-            </div>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 text-center border-top">
+        <div class="col">
+            <div class="display-4 mb-3">📅</div>
+            <h2>Vlastní plány</h2>
+            <p class="text-muted">Rozděl si dny na partie a nastav si přesný počet sérií a opakování. Trénink přesně na míru.</p>
+        </div>
+        <div class="col">
+            <div class="display-4 mb-3">🔥</div>
+            <h2>Databáze cviků</h2>
+            <p class="text-muted">Napojení na rozsáhlou databázi ti umožní rychle vybrat ty správné cviky pro tvůj cíl.</p>
+        </div>
+        <div class="col">
+            <div class="display-4 mb-3">📈</div>
+            <h2>Pro trenéry</h2>
+            <p class="text-muted">Spravuj své klienty z jednoho místa. Přiděluj jim plány a sleduj, jak se postupně zlepšují.</p>
         </div>
     </div>
-
-    <div class="col-md-4 mb-4">
-        <div class="card text-white bg-danger shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">❌ Expired Memberships</h5>
-                <h2 class="display-3 mt-3 fw-bold">@ViewBag.ExpiredMembers</h2>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="text-center mt-4">
-    <a asp-controller="Members" asp-action="Index" class="btn btn-outline-dark btn-lg shadow-sm">
-        📋 Go to Members Management
-    </a>
 </div>

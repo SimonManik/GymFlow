@@ -20,10 +20,7 @@ namespace GymFlow.Controllers
 
         public IActionResult Index()
         {
-            // LINQ queries to calculate statistics
-            ViewBag.TotalMembers = _context.Members.Count();
-            ViewBag.ActiveMembers = _context.Members.Count(m => m.MembershipExpiry >= DateTime.Now);
-            ViewBag.ExpiredMembers = _context.Members.Count(m => m.MembershipExpiry < DateTime.Now);
+          
 
             return View();
         }
