@@ -27,11 +27,11 @@
                 <td>@item.Description</td>
                 <td>@item.CreatedAt.ToShortDateString()</td>
                 <td>
-                    <a class="btn btn-info btn-sm">👁️ Detail cviků</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">👁️ Detail cviků</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-controller="Members" asp-a<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">👁️ Detail cviků</a>ction="Index">Zpět na seznam klientů</a>
+<a asp-controller="Members" asp-action="Index" class="btn btn-secondary mt-3">Zpět na seznam klientů</a>
