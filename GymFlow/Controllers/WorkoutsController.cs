@@ -64,5 +64,27 @@ namespace GymFlow.Controllers
 
             return View(plan);
         }
+
+        // GET: Add exercise to a plan
+        public IActionResult AddExercise(int planId)
+        {
+            var exercise = new WorkoutExercise { WorkoutPlanId = planId };
+            return View(exercise);
+        }
+
+        // POST: Save exercise to plan
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddExercise(WorkoutExercise exercise)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.WorkoutExercises.Add(exercise);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = exercise.WorkoutPlanId });
+            }
+
+            return View(exercise);
+        }
     }
 }

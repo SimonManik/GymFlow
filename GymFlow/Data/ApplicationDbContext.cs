@@ -4,7 +4,6 @@ using GymFlow.Models;
 
 namespace GymFlow.Data
 {
-    // TADY SE MĚNÍ DbContext na IdentityDbContext
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -13,5 +12,7 @@ namespace GymFlow.Data
 
         public DbSet<WorkoutPlan> WorkoutPlans { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+        public DbSet<WorkoutSession> WorkoutSessions { get; set; }
+        public DbSet<WorkoutSessionEntry> WorkoutSessionEntries { get; set; }
     }
 }
