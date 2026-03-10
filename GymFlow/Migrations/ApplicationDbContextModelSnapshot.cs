@@ -98,6 +98,67 @@ namespace GymFlow.Migrations
                     b.ToTable("WorkoutPlans");
                 });
 
+            modelBuilder.Entity("GymFlow.Models.WorkoutSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WorkoutPlanId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("WorkoutPlanId");
+
+                    b.ToTable("WorkoutSessions");
+                });
+
+            modelBuilder.Entity("GymFlow.Models.WorkoutSessionEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ExerciseName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RepsCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SetsCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("WorkoutExerciseId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("WorkoutSessionId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkoutExerciseId");
+
+                    b.HasIndex("WorkoutSessionId");
+
+                    b.ToTable("WorkoutSessionEntries");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -308,12 +369,48 @@ namespace GymFlow.Migrations
             modelBuilder.Entity("GymFlow.Models.WorkoutPlan", b =>
                 {
                     b.HasOne("GymFlow.Models.Member", "Member")
-                        .WithMany()
+                        .WithMany("WorkoutPlans")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("GymFlow.Models.WorkoutSession", b =>
+                {
+                    b.HasOne("GymFlow.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymFlow.Models.WorkoutPlan", "WorkoutPlan")
+                        .WithMany()
+                        .HasForeignKey("WorkoutPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+
+                    b.Navigation("WorkoutPlan");
+                });
+
+            modelBuilder.Entity("GymFlow.Models.WorkoutSessionEntry", b =>
+                {
+                    b.HasOne("GymFlow.Models.WorkoutExercise", "WorkoutExercise")
+                        .WithMany()
+                        .HasForeignKey("WorkoutExerciseId");
+
+                    b.HasOne("GymFlow.Models.WorkoutSession", "WorkoutSession")
+                        .WithMany("Entries")
+                        .HasForeignKey("WorkoutSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WorkoutExercise");
+
+                    b.Navigation("WorkoutSession");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -367,9 +464,19 @@ namespace GymFlow.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GymFlow.Models.Member", b =>
+                {
+                    b.Navigation("WorkoutPlans");
+                });
+
             modelBuilder.Entity("GymFlow.Models.WorkoutPlan", b =>
                 {
                     b.Navigation("Exercises");
+                });
+
+            modelBuilder.Entity("GymFlow.Models.WorkoutSession", b =>
+                {
+                    b.Navigation("Entries");
                 });
 #pragma warning restore 612, 618
         }

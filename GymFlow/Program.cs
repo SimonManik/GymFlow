@@ -1,4 +1,5 @@
 using GymFlow.Data;
+using GymFlow.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>() 
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddHttpClient<IWgerService, WgerService>(client =>
+{
+    client.BaseAddress = new Uri("https://wger.de/api/v2/");
+});
+
 
 var app = builder.Build();
 
@@ -39,11 +46,10 @@ await userManager.AddToRoleAsync(user, "Admin");
 }
 }
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
 
-    // Configure the HTTP request pipeline
-    if (!app.Environment.IsDevelopment())
+
+// Configure the HTTP request pipeline
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();

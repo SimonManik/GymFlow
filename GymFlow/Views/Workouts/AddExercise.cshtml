@@ -13,7 +13,9 @@
 
             <div class="form-group mb-3">
                 <label asp-for="ExerciseName" class="control-label"></label>
-                <input asp-for="ExerciseName" class="form-control" />
+                <input type="text" id="searchInput" class="form-control" placeholder="Hledat cvik..." />
+                <input type="hidden" asp-for="ExerciseName" id="selectedExercise" />
+                <ul id="exerciseList" class="list-group mt-1"></ul>    
                 <span asp-validation-for="ExerciseName" class="text-danger"></span>
             </div>
 

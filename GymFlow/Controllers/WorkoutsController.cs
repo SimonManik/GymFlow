@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using GymFlow.Data;
 using GymFlow.Models;
+using GymFlow.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GymFlow.Controllers
@@ -10,11 +11,17 @@ namespace GymFlow.Controllers
     public class WorkoutsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWgerService _wgerService;
 
-        public WorkoutsController(ApplicationDbContext context)
+
+        public WorkoutsController(ApplicationDbContext context, IWgerService wgerService)
         {
             _context = context;
+            _wgerService = wgerService;
         }
+
+
+        
 
         // List all workout plans for a specific member
         public async Task<IActionResult> Index(int memberId)
@@ -66,9 +73,11 @@ namespace GymFlow.Controllers
         }
 
         // GET: Add exercise to a plan
-        public IActionResult AddExercise(int planId)
+        public async Task<IActionResult>  AddExercise(int planId)
         {
             var exercise = new WorkoutExercise { WorkoutPlanId = planId };
+            var exercises = await _wgerService.GetExercisesAsync();
+            ViewBag.Exercises = exercises?.Results;
             return View(exercise);
         }
 
