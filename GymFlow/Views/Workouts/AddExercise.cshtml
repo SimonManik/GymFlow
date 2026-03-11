@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Add Exercise";
 }
+<p>Počet cviků: @(ViewBag.Exercises?.Count ?? 0)</p>
 
 <h1>Add Exercise to Plan</h1>
 
@@ -44,3 +45,39 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+    const exercises = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.Exercises as List<GymFlow.Models.Wger.ExerciseItem>));
+
+    const searchInput = document.getElementById("searchInput");
+    const exerciseList = document.getElementById("exerciseList");
+    const selectedExercise = document.getElementById("selectedExercise");
+
+    searchInput.addEventListener("input", function () {
+        const query = searchInput.value.toLowerCase();
+        exerciseList.innerHTML = ""; 
+
+        if (query.length < 2) return; 
+
+        const filtered = exercises.filter(e =>
+            e.translations.some(t => t.language === 2 && t.name.toLowerCase().includes(query))
+        );
+
+        filtered.slice(0, 10).forEach(e => {
+            const name = e.translations.find(t => t.language === 2)?.name;
+            const li = document.createElement("li");
+            li.className = "list-group-item list-group-item-action";
+            li.textContent = name;
+
+            li.addEventListener("click", function () {
+                searchInput.value = name;
+                selectedExercise.value = name;
+                exerciseList.innerHTML = "";
+            });
+
+            exerciseList.appendChild(li);
+        });
+    });
+</script>
+}
