@@ -43,6 +43,31 @@ namespace GymFlow.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("GymFlow.Models.WorkoutDay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("WorkoutPlanId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("WorkoutPlanId");
+
+                    b.ToTable("WorkoutDay");
+                });
+
             modelBuilder.Entity("GymFlow.Models.WorkoutExercise", b =>
                 {
                     b.Property<int>("Id")
@@ -62,12 +87,12 @@ namespace GymFlow.Migrations
                     b.Property<int>("Sets")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkoutPlanId")
+                    b.Property<int>("WorkoutDayId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WorkoutPlanId");
+                    b.HasIndex("WorkoutDayId");
 
                     b.ToTable("WorkoutExercises");
                 });
@@ -355,15 +380,30 @@ namespace GymFlow.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GymFlow.Models.WorkoutExercise", b =>
+            modelBuilder.Entity("GymFlow.Models.WorkoutDay", b =>
                 {
-                    b.HasOne("GymFlow.Models.WorkoutPlan", "WorkoutPlan")
-                        .WithMany("Exercises")
-                        .HasForeignKey("WorkoutPlanId")
+                    b.HasOne("GymFlow.Models.Member", "Member")
+                        .WithMany("WorkoutDays")
+                        .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("WorkoutPlan");
+                    b.HasOne("GymFlow.Models.WorkoutPlan", null)
+                        .WithMany("Exercises")
+                        .HasForeignKey("WorkoutPlanId");
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("GymFlow.Models.WorkoutExercise", b =>
+                {
+                    b.HasOne("GymFlow.Models.WorkoutDay", "WorkoutDay")
+                        .WithMany("Exercises")
+                        .HasForeignKey("WorkoutDayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WorkoutDay");
                 });
 
             modelBuilder.Entity("GymFlow.Models.WorkoutPlan", b =>
@@ -466,7 +506,14 @@ namespace GymFlow.Migrations
 
             modelBuilder.Entity("GymFlow.Models.Member", b =>
                 {
+                    b.Navigation("WorkoutDays");
+
                     b.Navigation("WorkoutPlans");
+                });
+
+            modelBuilder.Entity("GymFlow.Models.WorkoutDay", b =>
+                {
+                    b.Navigation("Exercises");
                 });
 
             modelBuilder.Entity("GymFlow.Models.WorkoutPlan", b =>

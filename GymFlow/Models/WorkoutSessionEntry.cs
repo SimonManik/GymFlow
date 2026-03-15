@@ -12,7 +12,6 @@ namespace GymFlow.Models
         // Optional link to the plan's WorkoutExercise
         public int? WorkoutExerciseId { get; set; }
         public WorkoutExercise? WorkoutExercise { get; set; }
-
         // Store the exercise name to keep a record even if the referenced exercise is changed/deleted
         public string ExerciseName { get; set; }
 

@@ -21,6 +21,6 @@ namespace GymFlow.Models
         public Member? Member { get; set; }
 
         // List of exercises in this plan
-        public List<WorkoutExercise> Exercises { get; set; } = new();
+        public List<WorkoutDay> Exercises { get; set; } = new();
     }
 }

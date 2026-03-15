@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
     ViewData["Title"] = "Domovská stránka";
 }
 
@@ -9,8 +12,15 @@
             <p class="lead text-muted mb-4">Ultimátní nástroj pro tvorbu cvičebních plánů, sledování progresu a správu tréninků.</p>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <a class="btn btn-primary btn-lg px-4 me-md-2" asp-area="Identity" asp-page="/Account/Register">🚀 Začít cvičit</a>
-                <a class="btn btn-outline-secondary btn-lg px-4" asp-area="Identity" asp-page="/Account/Login">🔑 Přihlásit se</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a class="btn btn-primary btn-lg px-4" asp-controller="Members" asp-action="Index">👥 Klienti fitka</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-lg px-4 me-md-2" asp-area="Identity" asp-page="/Account/Register">🚀 Začít cvičit</a>
+                    <a class="btn btn-outline-secondary btn-lg px-4" asp-area="Identity" asp-page="/Account/Login">🔑 Přihlásit se</a>
+                }
             </div>
         </div>
         <div class="col-lg-6 mt-4 mt-lg-0 text-center">

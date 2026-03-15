@@ -1,36 +1,32 @@
-﻿@model IEnumerable<GymFlow.Models.WorkoutPlan>
+﻿@model IEnumerable<GymFlow.Models.WorkoutDay>
 
 @{
-    ViewData["Title"] = "Tréninkové plány";
+    ViewData["Title"] = "Tréninkové dny";
 }
 
-<h1>Plány pro: @ViewBag.MemberName</h1>
+<h1>Dny pro: @ViewBag.MemberName</h1>
 
 <p>
-    <a asp-action="Create" asp-route-memberId="@ViewBag.MemberId" class="btn btn-primary">➕ Nový plán</a>
+    <a asp-action="AddDay" asp-route-memberId="@ViewBag.MemberId" class="btn btn-primary">➕ Přidat den</a>
 </p>
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Název</th>
-            <th>Popis</th>
-            <th>Vytvořeno</th>
-            <th>Akce</th>
-        </tr>
+    <tr>
+        <th>Den</th>
+        <th>Akce</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Description</td>
-                <td>@item.CreatedAt.ToShortDateString()</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">👁️ Detail cviků</a>
-                </td>
-            </tr>
-        }
+    @foreach (var day in Model)
+    {
+        <tr>
+            <td>@day.Name</td>
+            <td>
+                <a asp-action="DayDetails" asp-route-id="@day.Id" class="btn btn-info btn-sm">👁️ Detail cviků</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 

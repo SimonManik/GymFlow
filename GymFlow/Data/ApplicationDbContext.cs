@@ -14,5 +14,7 @@ namespace GymFlow.Data
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
         public DbSet<WorkoutSession> WorkoutSessions { get; set; }
         public DbSet<WorkoutSessionEntry> WorkoutSessionEntries { get; set; }
+        
+        public DbSet<WorkoutDay> WorkoutDays { get; set; }
     }
 }

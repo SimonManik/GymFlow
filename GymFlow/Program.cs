@@ -29,24 +29,7 @@ builder.Services.AddHttpClient<IWgerService, WgerService>(client =>
 var app = builder.Build();
 
 // admin
-using (var scope = app.Services.CreateScope())
-{
-var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-if (!await roleManager.RoleExistsAsync("Admin"))
-{
-await roleManager.CreateAsync(new IdentityRole("Admin"));
-}
-
-var user = await userManager.FindByEmailAsync("manik.simon@seznam.cz"); 
-if (user != null && !await userManager.IsInRoleAsync(user, "Admin"))
-{
-await userManager.AddToRoleAsync(user, "Admin");
-}
-}
-
-
+await InitializeRolesAndAdminAsync(app);
 
 // Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
@@ -72,3 +55,29 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+async Task InitializeRolesAndAdminAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    var user = await userManager.FindByEmailAsync("manik.simon@seznam.cz");
+    Console.WriteLine($"User found: {user != null}");
+    
+    if (user != null)
+    {
+        var isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+        Console.WriteLine($"Is already admin: {isAdmin}");
+        
+        if (!isAdmin)
+        {
+            var result = await userManager.AddToRoleAsync(user, "Admin");
+            Console.WriteLine($"Add to role result: {result.Succeeded}");
+        }
+    }
+}

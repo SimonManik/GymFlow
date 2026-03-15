@@ -1,11 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GymFlow.Models
 {
     public class Member
     {
-
         public int Id { get; set; }
 
         [Required]
@@ -21,6 +19,6 @@ namespace GymFlow.Models
         public DateTime MembershipExpiry { get; set; }
 
         public List<WorkoutPlan> WorkoutPlans { get; set; } = new();
-
+        public List<WorkoutDay> WorkoutDays { get; set; } = new();
     }
 }

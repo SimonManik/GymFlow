@@ -3,14 +3,13 @@
 @{
     ViewData["Title"] = "Add Exercise";
 }
-<p>Počet cviků: @(ViewBag.Exercises?.Count ?? 0)</p>
 
 <h1>Add Exercise to Plan</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddExercise">
-            <input type="hidden" asp-for="WorkoutPlanId" />
+            <input type="hidden" asp-for="WorkoutDayId" />
 
             <div class="form-group mb-3">
                 <label asp-for="ExerciseName" class="control-label"></label>
@@ -40,7 +39,7 @@
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Save Exercise</button>
-                <a asp-action="Details" asp-route-id="@Model.WorkoutPlanId" class="btn btn-secondary">Cancel</a>
+                <a asp-action="Details" asp-route-id="@Model.WorkoutDayId" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
@@ -48,31 +47,28 @@
 
 @section Scripts {
     <script>
-    const exercises = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.Exercises as List<GymFlow.Models.Wger.ExerciseItem>));
-
     const searchInput = document.getElementById("searchInput");
     const exerciseList = document.getElementById("exerciseList");
     const selectedExercise = document.getElementById("selectedExercise");
 
-    searchInput.addEventListener("input", function () {
-        const query = searchInput.value.toLowerCase();
-        exerciseList.innerHTML = ""; 
+    searchInput.addEventListener("input", async function () {
+        const query = searchInput.value;
+        exerciseList.innerHTML = "";
 
-        if (query.length < 2) return; 
+        if (query.length < 2) return;
 
-        const filtered = exercises.filter(e =>
-            e.translations.some(t => t.language === 2 && t.name.toLowerCase().includes(query))
-        );
+        // Call our controller endpoint which then calls Wger API
+        const response = await fetch(`/Workouts/SearchExercises?term=${query}`);
+        const suggestions = await response.json();
 
-        filtered.slice(0, 10).forEach(e => {
-            const name = e.translations.find(t => t.language === 2)?.name;
+        suggestions.forEach(s => {
             const li = document.createElement("li");
             li.className = "list-group-item list-group-item-action";
-            li.textContent = name;
+            li.textContent = s.value;
 
             li.addEventListener("click", function () {
-                searchInput.value = name;
-                selectedExercise.value = name;
+                searchInput.value = s.value;
+                selectedExercise.value = s.value;
                 exerciseList.innerHTML = "";
             });
 

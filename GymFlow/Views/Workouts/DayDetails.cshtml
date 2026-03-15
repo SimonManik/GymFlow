@@ -1,0 +1,47 @@
+@model GymFlow.Models.WorkoutDay
+
+@{ ViewData["Title"] = "Detail dne"; }
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>@Model.Name</h1>
+        <a asp-action="Index" asp-route-memberId="@Model.MemberId" class="btn btn-outline-secondary">Zpět na dny</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Cvik</th>
+            <th>Série</th>
+            <th>Opakování</th>
+            <th>Poznámka</th>
+            <th>Akce</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (!Model.Exercises.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">Žádné cviky.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var exercise in Model.Exercises)
+            {
+                <tr>
+                    <td>@exercise.ExerciseName</td>
+                    <td>@exercise.Sets</td>
+                    <td>@exercise.Reps</td>
+                    <td>@exercise.Note</td>
+                    <td><button class="btn btn-danger btn-sm">Remove</button></td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a asp-action="AddExercise" asp-route-dayId="@Model.Id" class="btn btn-success">➕ Přidat cvik</a>
+    </div>
+</div>

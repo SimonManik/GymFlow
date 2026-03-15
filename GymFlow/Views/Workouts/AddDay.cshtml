@@ -1,0 +1,24 @@
+@model GymFlow.Models.WorkoutDay
+
+@{ ViewData["Title"] = "Přidat den"; }
+
+<h1>Přidat tréninkový den</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddDay">
+            <input type="hidden" asp-for="MemberId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="např. Pondělí - Hrudník" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Uložit</button>
+                <a asp-action="Index" asp-route-memberId="@Model.MemberId" class="btn btn-secondary">Zpět</a>
+            </div>
+        </form>
+    </div>
+</div>

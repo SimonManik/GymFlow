@@ -19,7 +19,7 @@ namespace GymFlow.Models
         [Display(Name = "Poznámka")]
         public string? Note { get; set; }
 
-        public int WorkoutPlanId { get; set; }
-        public WorkoutPlan? WorkoutPlan { get; set; }
+        public int WorkoutDayId { get; set; }
+        public WorkoutDay? WorkoutDay { get; set; }
     }
 }
